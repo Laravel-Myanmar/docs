@@ -1,7 +1,7 @@
 # Eloquent: Relationships
 
-- [Introduction](#introduction)
-- [Defining Relationships](#defining-relationships)
+- [မိတ်ဆက်](#introduction)
+- [Relationship များ သတ်မှတ်ခြင်း](#defining-relationships)
     - [One To One](#one-to-one)
     - [One To Many](#one-to-many)
     - [One To Many (Inverse)](#one-to-many-inverse)
@@ -28,9 +28,9 @@
 - [Touching Parent Timestamps](#touching-parent-timestamps)
 
 <a name="introduction"></a>
-## Introduction
+## မိတ်ဆက်
 
-Database tables are often related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy, and supports several different types of relationships:
+Database tables တွေဟာ တစ်ခုနဲ့တစ်ခုဆက်နွယ်နေပါတယ်။ ဥပမာအားဖြင့် post တစ်ခုမှာ comment အများကြီးရှိနိုင်ပါတယ် သို့မဟုတ် order တစ်ခုဟာ တင်တဲ့ user နဲ့ ပဲသက်ဆိုင်ပါတယ်။ Eloquent က အရှေ့မှာဆွေးနွေးခဲ့တဲ့ relationship တွေကို စီမံခန့်ခွဲရတာ လွယ်ကူစေပါတယ်, ပြီးတော့ relationship အမျိုးအစားများစွာကိုလည်း ထောက်ပံ့ပေးထားပါတယ်။
 
 <div class="content-list" markdown="1">
 - [One To One](#one-to-one)
@@ -43,18 +43,18 @@ Database tables are often related to one another. For example, a blog post may h
 </div>
 
 <a name="defining-relationships"></a>
-## Defining Relationships
+## Relationships များသတ်မှတ်ခြင်း
 
-Eloquent relationships are defined as methods on your Eloquent model classes. Since, like Eloquent models themselves, relationships also serve as powerful [query builders](/docs/{{version}}/queries), defining relationships as methods provides powerful method chaining and querying capabilities. For example, we may chain additional constraints on this `posts` relationship:
+Eloquent relationships တွေကို model classes တွေမှာ methods များအဖြစ်နဲ့ သတ်မှတ်နိုင်ပါတယ်။  Eloquent models တွေလိုပါပဲ Eloquent Relationship တွေဟာ query တွေကို တည်ဆောက်တဲ့ နေရာ [query builders](/docs/{{version}}/queries) မှာ အစွမ်းထက်တဲ့အတွက် Relationship တွေကို model classes တွေမှာ သတ်မှတ်ပြီးတဲ့ အခါ method chaining လိုမျိူး အရမ်းအသုံးဝင်တဲ့ query ပြုလုပ်နိုင်စွမ်းကို ရရှိနိုင်မှာဖြစ်ပါတယ်။ ဥပမမာဆိုရလျှင်, `user` နဲ့ `post` relationship မှာ constraints တွေထပ်ပြီးထည့်လို့ရနိုင်ပါတယ်။
 
     $user->posts()->where('active', 1)->get();
 
-But, before diving too deep into using relationships, let's learn how to define each type.
+ဒါပေမဲ့ အရှေ့ကိုဆက်ပြီးမလေ့လာခင်မှာ, Relationship Type တစ်ခုချင်းစီကို ဘယ်လိုသတ်မှတ်လဲဆိုတာ လေ့လာကြည့်ရအောင်
 
 <a name="one-to-one"></a>
-### One To One
+### One To One (တစ်ခု မှ တစ်ခု)
 
-A one-to-one relationship is a very basic relation. For example, a `User` model might be associated with one `Phone`. To define this relationship, we place a `phone` method on the `User` model. The `phone` method should call the `hasOne` method and return its result:
+A one-to-one relationship (တစ်ခု မှ တစ်ခု ဆက်နွယ်မှု) ဆိုတာ အခြေခံအကျဆုံး relationship ပါပဲ။ ဥပမာ၊ `User` တစ်ယောက်မှာ `Phone` တစ်လုံးပဲရှိတယ် ဆိုကြပါစို့။ ဒါကို Eloquent Relationship အနေနဲ့သတ်မှတ်ရရင် `User` ဆိုတဲ့ model class ထဲမှာ `phone` ဆိုတဲ့ method ကို သတ်မှတ်ပေးရပါမယ်။ `phone` method ထဲမှာ `hasOne` ဆိုတဲ့ method ကို ခေါ်ပြီး return ပြန်ပေးရပါမယ်။
 
     <?php
 
@@ -73,21 +73,22 @@ A one-to-one relationship is a very basic relation. For example, a `User` model 
         }
     }
 
-The first argument passed to the `hasOne` method is the name of the related model. Once the relationship is defined, we may retrieve the related record using Eloquent's dynamic properties. Dynamic properties allow you to access relationship methods as if they were properties defined on the model:
+`hasOne` method ထဲကို ပထမဆုံးပို့ပေးရမယ့် argument က အခု model နဲ့ ဆက်နွယ်နေတဲ့ model ရဲ့ နာမည်ပါ။ ဥပမာ အခု model ဟာ user model ဖြစ်တဲ့အတွက် user နဲ့ ဆက်နွယ်တဲ့ phone model ရဲ့ နာမည်ကို ပို့ပေးရပါမယ်။ Relationship သတ်မှတ်ပြီးတာနဲ့ Eloquent ရဲ့ dynamic properties တွေကိုအသုံးပြုပြီး သက်ဆိုင်တဲ့ record တွေကို ထုတ်ယူလို့ရပါပြီ။ Dynamic Properties တွေဟာ Relationship method တွေကို model ရဲ့ property တွေလို အသုံးပြုစေနိုင်ပါတယ်။ ဥပမာ user model ရဲ့ relationship method ဖြစ်တဲ့ phone() ကို dynamic property အဖြစ် အသုံးပြုတာကို ဖော်ပြပါမယ်။
 
     $phone = User::find(1)->phone;
 
-Eloquent determines the foreign key of the relationship based on the model name. In this case, the `Phone` model is automatically assumed to have a `user_id` foreign key. If you wish to override this convention, you may pass a second argument to the `hasOne` method:
+Eloquent က relationship တစ်ခုမှာ ဘယ်ဟာက foreign key လည်းဆိုတာ model name ကို ကြည့်ပြီးဆုံးဖြတ်ပါတယ်။ အခု ဥပမာမှာဆိုလျှင် `Phone` model မှာ `user_id` ဆိုတဲ့ foreign key ပါမယ်လို့ အလိုအလျှောက်ယူဆပါတယ်။ အကယ်၍ foreign key ကို မိမိစိတ်ကြိုက် သတ်မှတ်လိုပါက `hasOne` method မှာ ဒုတိယ argument ပေးပြီး သတ်မှတ်နိုင်ပါတယ်။
 
     return $this->hasOne('App\Phone', 'foreign_key');
 
-Additionally, Eloquent assumes that the foreign key should have a value matching the `id` (or the custom `$primaryKey`) column of the parent. In other words, Eloquent will look for the value of the user's `id` column in the `user_id` column of the `Phone` record. If you would like the relationship to use a value other than `id`, you may pass a third argument to the `hasOne` method specifying your custom key:
+Eloquent က Foreign Key တစ်ခုဟာ Parent ရဲ့ `id` သို့မဟုတ် `$primarykey` column နဲ့ တူညီမှုတစ်ခု ရှိသင့်တယ်လို့ ယူဆပါတယ်။ တစ်နည်းအားဖြင့်ဆိုရလျှင်, Eloquent ဟာ user ရဲ့ `id` column နဲ့ တူညီတဲ့ တန်ဖိုးတွေကို `Phone` ရဲ့ `user_id` column မှာပဲ ရှာမှာဖြစ်ပါတယ်။ တစ်ကယ်လို့ parent ရဲ့ `id` နဲ့ Relationship မပြုလုပ်လိုလျှင် `hasOne` method ကို တတိယ argument ပို့ပေးပြီး မိမိကြိုက်နှစ်သက်ရာ သတ်မှတ်နိုင်ပါတယ်။
 
     return $this->hasOne('App\Phone', 'foreign_key', 'local_key');
 
 #### Defining The Inverse Of The Relationship
+#### (Relationship ကို ပြောင်းပြန်သတ်မှတ်ခြင်း)
 
-So, we can access the `Phone` model from our `User`. Now, let's define a relationship on the `Phone` model that will let us access the `User` that owns the phone. We can define the inverse of a `hasOne` relationship using the `belongsTo` method:
+အခုဆိုရင် `User` model မှတစ်ဆင့် `Phone` model ကို ဝင်ရောက်လို့ရပါပြီ။ ဒါဆိုရင် `Phone` model ကနေပြီးတော့ `User` ကို ပြန်လည်ဆက်သွယ်ပေးနိုင်မယ့် Relationship တစ်ခု သတ်မှတ်ကြည့်ရအောင်။ ဒီ `Phone` ကို ဘယ် `User` က ပိုင်တာလည်းဆိုတာမျိုး။ အဲဒီအတွက်  `hasOne` method ရဲ့ ပြောင်းပြန် `belongsTo` method ကို သတ်မှတ်ပေးနိုင်ပါတယ်။
 
     <?php
 
@@ -106,7 +107,7 @@ So, we can access the `Phone` model from our `User`. Now, let's define a relatio
         }
     }
 
-In the example above, Eloquent will try to match the `user_id` from the `Phone` model to an `id` on the `User` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with `_id`. However, if the foreign key on the `Phone` model is not `user_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+အထက်က ဥပမာမှာ Eloquent ဟာ `Phone` model ရဲ့  `user_id` column ထဲက တန်ဖိုးနဲ့ `User` model ရဲ့ `id` column ထဲက တန်ဖိုးတွေကို တိုက်ပြီးရှာပါမယ်။ Eloquent က Relationship method ကို ကြည့်ပါတယ်။ ပြီးလျှင် method နာမည်ရဲ့ နောက်မှာ `_id` ကို ထည့်ပြီး default foreign key name အဖြစ် သတ်မှတ်ပါတယ်။ ဒါပေမယ့် `Phone` model ရဲ့ foreign key ဟာ `user_id` မဟုတ်ခဲ့ဘူးဆိုလျှင်တော့ `belongsTo` method မှာ မိမိသတ်မှတ်ထားတဲ့ foreign key နာမည် ကို ဒုတိယ argument အနေနဲ့ထည့်ပေးနိုင်မှာတယ်။
 
     /**
      * Get the user that owns the phone.
@@ -116,7 +117,7 @@ In the example above, Eloquent will try to match the `user_id` from the `Phone` 
         return $this->belongsTo('App\User', 'foreign_key');
     }
 
-If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
+တစ်ကယ်လို့ Parent Model က `id` ကို primary key အဖြစ်မသုံးထားလျှင် ဒါမှမဟုတ် `id` မဟုတ်တဲ့ အခြား column တစ်ခုနဲ့ child model ကို ချိတ်ဆက်စေလိုလျှင် `belongsTo` method ထဲကို မိမိ အသုံးပြုလိုတဲ့ column နာမည်ကို တတိယ argument အနေနဲ့ ပို့ပေးနိုင်ပါတယ်။
 
     /**
      * Get the user that owns the phone.
@@ -127,9 +128,9 @@ If your parent model does not use `id` as its primary key, or you wish to join t
     }
 
 <a name="one-to-many"></a>
-### One To Many
+### One To Many (တစ်ခု မှ အများ)
 
-A one-to-many relationship is used to define relationships where a single model owns any amount of other models. For example, a blog post may have an infinite number of comments. Like all other Eloquent relationships, one-to-many relationships are defined by placing a function on your Eloquent model:
+Model တစ်ခုမှာ တစ်ခြား Model ဟာ တစ်ခုထက်မက မှီခိုနေတဲ့ အခြေအနေမျိုးမှာ One To Many Relationship (တစ်ခု မှ အများ ဆက်နွယ်မှု)ကို သတ်မှတ်ရပါမယ်။ ဥပမာ blog post တစ်ခုမှာ comment တွေအများကြီးရှိနေနိုင်တဲ့ အဖြစ်မျိုးပါပဲ။ အခြား Eloquent Relationship တွေလိုပါပဲ, one to many relationship ကို သတ်မှတ်ချင်ရင် Eloquent Model မှာ function တစ်ခုရေးပေးရပါမယ်။  
 
     <?php
 
@@ -148,9 +149,9 @@ A one-to-many relationship is used to define relationships where a single model 
         }
     }
 
-Remember, Eloquent will automatically determine the proper foreign key column on the `Comment` model. By convention, Eloquent will take the "snake case" name of the owning model and suffix it with `_id`. So, for this example, Eloquent will assume the foreign key on the `Comment` model is `post_id`.
+ဒီနေရာမှာ သတိပြုရမှာက Eloquent ဟာ `Comment` model မှာ ဖြစ်နိုင်မယ့် foreign key column ကို အလိုအလျောက် ဆုံးဖြတ်မှာ ဖြစ်ပါတယ်။ Eloquent ဟာ `snake case` လို့ခေါ်တဲ့ နာမည်သတ်မှတ်ခြင်းကို အသုံးပြုပြီး one to many မှာ many ဖြစ်တဲ့ model ရဲ့ column တွေမှာ one ဖြစ်တဲ့ model နာမည်နောက်မှာ `_id` ပေါင်းထည့်ပြီး foreign key သတ်မှတ်ခြင်းကို ဆုံးဖြတ်မှာဖြစ်ပါတယ်။ အခု ဥပမာ မှာဆိုရင် `Comment` model ရဲ့ foreign key ဟာ `post_id` ဖြစ်တယ်လို့ သတ်မှတ်မှာပဲဖြစ်ပါတယ်။
 
-Once the relationship has been defined, we can access the collection of comments by accessing the `comments` property. Remember, since Eloquent provides "dynamic properties", we can access relationship methods as if they were defined as properties on the model:
+Relationship သတ်မှတ်ပြီးတာနဲ့ post တစ်ခုမှာ ရှိတဲ့ comment တွေကို ထုတ်ယူနိုင်ပါပြီ။ Eloquent ဟာ dynamic preperties ဆိုတဲ့ feature ရှိတဲ့အတွက် သတ်မှတ်ထားတဲ့ Relationship method တွေကို model ရဲ့ Property အနေနဲ့ အလွယ်တကူ အသုံးပြုနိုင်ပါတယ်။
 
     $comments = App\Post::find(1)->comments;
 
@@ -158,11 +159,11 @@ Once the relationship has been defined, we can access the collection of comments
         //
     }
 
-Of course, since all relationships also serve as query builders, you can add further constraints to which comments are retrieved by calling the `comments` method and continuing to chain conditions onto the query:
+Relationships တွေဟာ query တွေတည်ဆောက်ဖို့ အတွက် အသုံးပြုထာတာဖြစ်တဲ့အတွက် comments တွေကို ထုတ်ယူတဲ့အခါမှာ အခြား constraint တွေကို ထပ်ထည့်နိုင်ပါတယ်။ Constraint တွေထပ်ထည့်တဲ့အခါမှာ `comments()` method ကိုအသုံးပြုပြီး လိုချင်တဲ့ query ရသည်အထိ condition တွေ chain ပြုလုပ်ပြီး အသုံးပြုရမှာဖြစ်ပါတယ်။
 
     $comment = App\Post::find(1)->comments()->where('title', 'foo')->first();
 
-Like the `hasOne` method, you may also override the foreign and local keys by passing additional arguments to the `hasMany` method:
+`hasOne` method လိုပါပဲ foreign key နဲ့ local key တွေကို မိမိနှစ်သက်ရာပေးလိုလျှင် `hasMany` method ထဲကို argument တွေထည့်ပေးပြီးသတ်မှတ်နိုင်ပါတယ်။ 
 
     return $this->hasMany('App\Comment', 'foreign_key');
 
@@ -171,7 +172,7 @@ Like the `hasOne` method, you may also override the foreign and local keys by pa
 <a name="one-to-many-inverse"></a>
 ### One To Many (Inverse)
 
-Now that we can access all of a post's comments, let's define a relationship to allow a comment to access its parent post. To define the inverse of a `hasMany` relationship, define a relationship function on the child model which calls the `belongsTo` method:
+အခုဆိုရင် post မှတစ်ဆင့် comment တွေကို ယူလို့ရပါပြီ။ comment မှတစ်ဆင့် parent model ဖြစ်တဲ့ post ကို ယူလို့ရအောင် relationship တစ်ခုတည်ဆောက်ကြည့်ရအောင်။ `hasMany` ရဲ့ ပြောင်းပြန် relationship သတ်မှတ်ချင်ရင်, child model မှာ relationship function တစ်ခုကို တည်ဆောက်ပေးရပါမယ်။ ပြီးလျှင် relationship function ထဲမှာ `belongsTo` ဆိုတဲ့ method ကို ခေါ်ပေးရပါမယ်။
 
     <?php
 
@@ -190,13 +191,13 @@ Now that we can access all of a post's comments, let's define a relationship to 
         }
     }
 
-Once the relationship has been defined, we can retrieve the `Post` model for a `Comment` by accessing the `post` "dynamic property":
+Relationship သတ်မှတ်ပြီးတာနဲ့ `Comment` တစ်ခုဟာ ဘယ် `Post` အောက်မှာရှိလည်းဆိုတာကို `post` ဆိုတဲ့ "dynamic property" ကိုအသုံးပြုပြီး ထုတ်ယူနိုင်ပါပြီ။
 
     $comment = App\Comment::find(1);
 
     echo $comment->post->title;
 
-In the example above, Eloquent will try to match the `post_id` from the `Comment` model to an `id` on the `Post` model. Eloquent determines the default foreign key name by examining the name of the relationship method and suffixing the method name with a `_` followed by the name of the primary key column. However, if the foreign key on the `Comment` model is not `post_id`, you may pass a custom key name as the second argument to the `belongsTo` method:
+အထက်ပါ ဥပမာမှာ Eloquent ဟာ `Comment` model ရဲ့ `post_id` ကို `Post` model ရဲ့ `id` နဲ့ တိုက်ညီမှုရှိမရှိစစ်ပါမယ်။ Eloquent ဟာ default foreign key ကို relationship method ရဲ့ နောက်မှာ parent model ရဲ့ primary key နာမည်ကို `_` ပေါင်းထည့်ပြီး သတ်မှတ်ပါတယ်။ ဥပမာ `post_id`။ အကယ်၍ `Comment` model မှာ `post_id` ကို foreign key အဖြစ်မသုံးခဲ့ဘူးဆိုလျှင်, `belongsTo` method ထဲကို မိမိသတ်မှတ်လိုတဲ့ column နာမည်ကို ဒုတိယ argument အနေနဲ့ ထည့်ပေးနိုင်ပါတယ်။
 
     /**
      * Get the post that owns the comment.
@@ -206,7 +207,8 @@ In the example above, Eloquent will try to match the `post_id` from the `Comment
         return $this->belongsTo('App\Post', 'foreign_key');
     }
 
-If your parent model does not use `id` as its primary key, or you wish to join the child model to a different column, you may pass a third argument to the `belongsTo` method specifying your parent table's custom key:
+
+တစ်ကယ်လို့ Parent Model က `id` ကို primary key အဖြစ်မသုံးထားလျှင် ဒါမှမဟုတ် `id` မဟုတ်တဲ့ အခြား column တစ်ခုနဲ့ child model ကို ချိတ်ဆက်စေလိုလျှင် `belongsTo` method ထဲကို မိမိ အသုံးပြုလိုတဲ့ column နာမည်ကို တတိယ argument အနေနဲ့ ပို့ပေးနိုင်ပါတယ်။
 
     /**
      * Get the post that owns the comment.
@@ -217,11 +219,11 @@ If your parent model does not use `id` as its primary key, or you wish to join t
     }
 
 <a name="many-to-many"></a>
-### Many To Many
+### Many To Many  (အများ မှ အများ)
 
-Many-to-many relations are slightly more complicated than `hasOne` and `hasMany` relationships. An example of such a relationship is a user with many roles, where the roles are also shared by other users. For example, many users may have the role of "Admin". To define this relationship, three database tables are needed: `users`, `roles`, and `role_user`. The `role_user` table is derived from the alphabetical order of the related model names, and contains the `user_id` and `role_id` columns.
+Many-to-many relations (အများမှအများ ဆက်နွယ်မှု) ဟာ `hasOne` နဲ့ `hasMany` ဆက်နွယ်မှုတွေထက် အနည်းငယ် ပိုရှုပ်ထွေးပါတယ်။ ဥပမာပြရရင် user တစ်ယောက်မှာ role အများကြီးရှိနိုင်သလို role တစ်ခုကိုလည်း user တစ်ယောက်မက ခွဲဝေအသုံးပြုနိုင်သလိုပါပဲ။ ပိုပြီးထပ်ရှင်းရရင် `Admin` ဆိုတဲ့ role မှာ user တစ်ယောက်မက ရှိနိုင်တယ်ဆိုတာမျိုးပါ။ အခု relationship ကိုသတ်မှတ်ဖို့အတွက် `users`, `roles` and `role_user` ဆိုတဲ့ database table သုံးခုလိုအပ်ပါတယ်။ `role_user` table ဟာ Many to Many သတ်မှတ်မယ့် model နှစ်ခုကို အက္ခရာစဥ်လိုက် နာမည်ပေးပြီးတော့ တည်ဆောက်ရမယ့် table ပါ။
 
-Many-to-many relationships are defined by writing a method that returns the result of the `belongsToMany` method. For example, let's define the `roles` method on our `User` model:
+Many-to-many relations တွေကို သတ်မှတ်ရန် method တစ်ခုတည်ဆောက်ပေးရပါမယ်။ အဲဒီ method ထဲမှာ `belongsToMany` ကို call ပြီးရလာတဲ့ result ကို return ပြန်ပေးရပါမယ်။ ဥပမာ အနေနဲ့ `User` model မှာ `roles` ဆိုတဲ့ method ကို တည်ဆောက်ကြည့်ရအောင်။
 
     <?php
 
@@ -240,7 +242,7 @@ Many-to-many relationships are defined by writing a method that returns the resu
         }
     }
 
-Once the relationship is defined, you may access the user's roles using the `roles` dynamic property:
+Relationship သတ်မှတ်ပြီးတာနဲ့ `roles` ဆိုတဲ့ dynamic property ကို အသုံးပြုပြီး user ရဲ့ roles တွေကို ထုတ်ယူလို့ရပါပြီ။
 
     $user = App\User::find(1);
 
@@ -248,21 +250,22 @@ Once the relationship is defined, you may access the user's roles using the `rol
         //
     }
 
-Of course, like all other relationship types, you may call the `roles` method to continue chaining query constraints onto the relationship:
+တစ်ခြား relationship တွေလိုပါပဲ၊ `roles` method ရဲ့နောက်မှာ method chaining ပြုလုပ်ပြီး query တွေကို တည်ဆောက်လို့ရပါပြီ။
 
     $roles = App\User::find(1)->roles()->orderBy('name')->get();
 
-As mentioned previously, to determine the table name of the relationship's joining table, Eloquent will join the two related model names in alphabetical order. However, you are free to override this convention. You may do so by passing a second argument to the `belongsToMany` method:
+အထက်မှာဖာ်ပြခဲ့သလိုပါပဲ table နှစ်ခုရဲ့ ဆက်စပ် table (joining table) နာမည်အတွက် Eloquent ဟာ သက်ဆိုင်ရာ model နှစ်ခုရဲ့ နာမည်တွေကို အက္ခရာစဥ်ပြီး ဆုံးဖြတ်သတ်မှတ်မှာဖြစ်ပါတယ်။ ဒါပေမယ့် joining table ကို မိမိစိတ်ကြိုက်နာမည်ပေးလိုလျှင် `belongsToMany` method ကို ဒုတိယ argument ပေးပြီးသတ်မှတ်နိုင်ပါတယ်။
 
     return $this->belongsToMany('App\Role', 'role_user');
 
-In addition to customizing the name of the joining table, you may also customize the column names of the keys on the table by passing additional arguments to the `belongsToMany` method. The third argument is the foreign key name of the model on which you are defining the relationship, while the fourth argument is the foreign key name of the model that you are joining to:
+Joining Table ရဲ့ နာမည်ကို မိမိစိတ်ကြိုက်ပေးရုံတင်မက, column တွေကိုပါ စိတ်ကြိုက် နာမည်ပေးလိုလျှင် `belongsToMany` method ထဲကို arguments တွေထည့်ပြီးပေးလို့ရပါတယ်။ တတိယ argument ဟာ relationship သတ်မှတ်ထားတဲ့ model ရဲ့ foreign key နာမည်ဖြစ်ပြီး, စတုတ္ထ argument ကတော့ ပထမ model နဲ့ ဆက်စပ်မယ့် model ရဲ့ foreign key နာမည်ပဲဖြစ်ပါတယ်။
 
     return $this->belongsToMany('App\Role', 'role_user', 'user_id', 'role_id');
 
 #### Defining The Inverse Of The Relationship
+#### (Relationship ကို ပြောင်းပြန်သတ်မှတ်ခြင်း)
 
-To define the inverse of a many-to-many relationship, you place another call to `belongsToMany` on your related model. To continue our user roles example, let's define the `users` method on the `Role` model:
+Many-to-many relationship ကို ပြောင်းပြန်သတ်မှတ်လိုလျှင် သက်ဆိုင်ရာ model မှာ နောက်ထပ် `belongsToMany` ကို ထပ်ပြီး call လုပ်ပေးရပါမယ်။ အထက်က user roles ဥပမာအတိုင်းဆက်ပြောရလျှင် `Role` model မှာ `users` method ကိုသတ်မှတ်ပေးရပါမယ်။
 
     <?php
 
@@ -281,29 +284,29 @@ To define the inverse of a many-to-many relationship, you place another call to 
         }
     }
 
-As you can see, the relationship is defined exactly the same as its `User` counterpart, with the exception of referencing the `App\User` model. Since we're reusing the `belongsToMany` method, all of the usual table and key customization options are available when defining the inverse of many-to-many relationships.
+အခုတွေ့ရတဲ့အတိုင်းပါပဲ ဒီ relationship ဟာ `User` model ဘက်မှာ သတ်မှတ်ထားတာနဲ့ အတူတူပါပဲ။ `belongsToMany` method ထဲကို ထည့်တဲ့ argument ပဲကွာသွားတာကိုတွေ့ရပါမယ်။ `Role` model ထဲက `belongsToMany` မှာ `App\User`ကိုထည့်ပေးရပါမယ်။ `belongsToMany` method ကိုအသုံးပြုထားတဲ့အတွက်ကြောင့် table နဲ့ key တွေကို မိမိစိတ်ကြိုက် သတ်မှတ်နိုင်ပါတယ်။ 
 
 #### Retrieving Intermediate Table Columns
 
-As you have already learned, working with many-to-many relations requires the presence of an intermediate table. Eloquent provides some very helpful ways of interacting with this table. For example, let's assume our `User` object has many `Role` objects that it is related to. After accessing this relationship, we may access the intermediate table using the `pivot` attribute on the models:
+လေ့လာခဲ့တဲ့အတိုင်း Many-to-many relationship ဟာ ကြားခံဆက်စပ် table တစ်ခုလိုအပ်ပါတယ်။ Eloquent ဟာ ကြားခံ table နဲ့ ဆက်သွယ်ဖို့ အထောက်အကူဖြစ်တဲ့ နည်းလမ်းတွေအများကြီးပေးပါတယ်။ ဥပမာ `User` object တစ်ခုမှာ သူနဲ့ ဆက်စပ်နေတဲ့ `Role` objects  တွေအများကြီးရှိတယ် ဆိုကြပါစို့၊ Relationship တွေသတ်မှတ်ပြီးတဲ့အခါမှာ ကြားခံ table ကို `pivot` ဆိုတဲ့ attribute ကိုသုံးပြီး ချိတ်ဆက်အသုံးပြုနိုင်ပါတယ်။
 
     $user = App\User::find(1);
 
     foreach ($user->roles as $role) {
         echo $role->pivot->created_at;
     }
+ထုတ်ယူလိုက်တဲ့ `Role` model တစ်ခုချင်းစီဟာ `pivot` attribute ထဲမှာ အလိုအလျောက် နေရာယူသွားပြီဆိုတာကို သတိပြုပါ။ ဒီ attribute ထဲမှာ ကြားခံ table ကို ကိုယ်စားပြုတဲ့ model တစ်ခု ဝင်ရောက်သွားတဲ့အတွက် အခြား eloquent model တွေလိုပဲ သူ့ကိုအသုံးပြုနိုင်ပါပြီ။
 
-Notice that each `Role` model we retrieve is automatically assigned a `pivot` attribute. This attribute contains a model representing the intermediate table, and may be used like any other Eloquent model.
-
-By default, only the model keys will be present on the `pivot` object. If your pivot table contains extra attributes, you must specify them when defining the relationship:
+`pivot` table ထဲမှာ model keys တွေသာပါဝင်မှာဖြစ်ပါတယ်။ အကယ်၍ pivot table ထဲမှာ extra attributes တွေထပ်ထည့်လိုလျှင် relationship သတ်မှတ်ချိန်မှာ ထည့်ပေးရပါမယ်။
 
     return $this->belongsToMany('App\Role')->withPivot('column1', 'column2');
 
-If you want your pivot table to have automatically maintained `created_at` and `updated_at` timestamps, use the `withTimestamps` method on the relationship definition:
+အကယ်၍ pivot table မှာ `created_at` and `updated_at` အစရှိတဲ့ နေ့ရက်တန်ဖိုးတွေအလိုအလျောက်ထည့်စေချင်လျှင် `withTimestamps` ဆိုတဲ့ method ကို relationship စတင်သတ်မှတ်တဲ့အချိန်မှာ ထည့်ပေးရပါမယ်။
 
     return $this->belongsToMany('App\Role')->withTimestamps();
 
 #### Customizing The `pivot` Attribute Name
+
 
 As noted earlier, attributes from the intermediate table may be accessed on models using the `pivot` attribute. However, you are free to customize the name of this attribute to better reflect its purpose within your application.
 
