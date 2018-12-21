@@ -136,7 +136,6 @@ Translation files that use translation strings as keys are stored as JSON files 
 
     'apples' => '{0} There are none|[1,19] There are some|[20,*] There are many',
 
-After defining a translation string that has pluralization options, you may use the `trans_choice` function to retrieve the line for a given "count". In this example, since the count is greater than one, the plural form of the translation string is returned:
 သင့်ရဲ့ စကားစုကို အများကိန်းပြုလုပ်ခြင်းအခြေအနေဖြင့် အသုံးပြုမည်ဟုရွေးခြယ်ထားပြီးနောက် ပေးလိုက်သော "count" ပေါ်မူတည်၍  စကားစုကိုထုတ်ယူသောအခါ `trans_choice` function ကိုအသုံးပြုနိုင်ပါတယ်။ ယခု ဥပမာတွင် count ၏တန်ဖိုး ၁ ထက်ကြီးတာနဲ့ ဘာသာပြန်မည့်စကားစုက အများကိန်းပုံစံဖြင့် return ပြန်တာမှာဖြစ်ပါတယ်။
 
     echo trans_choice('messages.apples', 10);
