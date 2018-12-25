@@ -21,17 +21,17 @@
             /es
                 messages.php
 
-All language files return an array of keyed strings. For example:
+ဘာသာစကားကြိုတင်သတ်မှတ်ထားသော ဖိုင်တွေဆီမှ keyed strings တွေပါတဲ့ array return ပြန်လာပါတယ်။ ဥပမာ -
 
     <?php
 
     return [
-        'welcome' => 'Welcome to our application'
+        'welcome' => 'မင်္ဂလာပါ'
     ];
 
-### Configuring The Locale
+### ဘာသာစကားညွှန်ကိန်း(locale) များကို အစီအစဉ်ချခြင်း
 
-The default language for your application is stored in the `config/app.php` configuration file. Of course, you may modify this value to suit the needs of your application. You may also change the active language at runtime using the `setLocale` method on the `App` facade:
+သင့် application အတွက် ပုံသေ ဘာသာစကားကို `config/app.php` configuration ဖိုင်ထဲမှာ သတ်မှတ်ထားပါတယ်။ ၎င်းကို သင့် application နဲ့ကိုက်ညီအောင် ပြောင်းလဲနိုင်ပါတယ်။ Runtime တွင်လဲ `setLocale` method ကို `App` facade နဲ့တွဲဖက်ပြီး ဘာသာစကားများ ပြောင်းလဲအသုံးပြုနိုင်ပါတယ်။
 
     Route::get('welcome/{locale}', function ($locale) {
         App::setLocale($locale);
@@ -39,13 +39,13 @@ The default language for your application is stored in the `config/app.php` conf
         //
     });
 
-You may configure a "fallback language", which will be used when the active language does not contain a given translation string. Like the default language, the fallback language is also configured in the `config/app.php` configuration file:
+လက်ရှိသတ်မှတ်ထားတဲ့ ဘာသာပြန်မည့်စကားမှာ မပါဝင်သော စကားစုများအတွက် အသုံးပြုနိုင်ရန် အရံဘာသာစကား (fallback language) ကိုလည်း သတ်မှတ်ပေးဖို့လိုပါလိမ့်မယ်။ "ပုံသေဘာသာစကား" သတ်မှတ်သကဲ့သို့ပင် "အရံဘာသာစကား" ကိုလဲ `config/app.php` configuration ဖိုင်ထဲမှာသတ်မှတ်နိုင်ပါတယ်။
 
     'fallback_locale' => 'en',
 
 #### Determining The Current Locale
 
-You may use the `getLocale` and `isLocale` methods on the `App` facade to determine the current locale or check if the locale is a given value:
+`getLocale` နှင့် `isLocale` method တို့ကို `App` facade တွင်အသုံးပြုပြီး လက်ရှိအသုံးပြုနေသော ဘာသာစကားကို ဆုံးဖြတ်ခြင်း (သို့) ထို ဘာသာစကားညွှန်းကိန်းသည် ကြိုတင်သတ်မှတ်ထားခြင်းရှိမရှိ စစ်ဆေးခြင်းများပြုလုပ်နိုင်ပါတယ်။
 
     $locale = App::getLocale();
 
@@ -92,50 +92,51 @@ Translation files that use translation strings as keys are stored as JSON files 
 <a name="retrieving-translation-strings"></a>
 ## Retrieving Translation Strings
 
-You may retrieve lines from language files using the `__` helper function. The `__` method accepts the file and key of the translation string as its first argument. For example, let's retrieve the `welcome` translation string from the `resources/lang/messages.php` language file:
+`__` ဆိုတဲ့ helper function အသုံးပြုပြီးတော့ ဘာသာစကား files တွေမှ စကားစုများထုတ်ယူနိုင်ပါတယ်။ `__` method က ဘာသာပြန်မည့်စကားစုတွေရဲ့ ဖိုင်နာမည် နဲ့ key တွေကို သူ့ရဲ့ ပထမ argument အနေနဲ့ လက်ခံပါတယ်။ ဥပမာ `resources/lang/messages.php` ဘာသာစကားဖိုင်အတွင်းမှ `welcome` စကားစုကို ရယူမည်ဆိုပါစို့ -
 
     echo __('messages.welcome');
 
     echo __('I love programming.');
 
-Of course if you are using the [Blade templating engine](/docs/{{version}}/blade), you may use the `{{ }}` syntax to echo the translation string or use the `@lang` directive:
+သင်က [Blade templating engine](/docs/{{version}}/blade) ကိုသုံးနေတာဆိုရင် ဘာသာစကားစုတွေကို ဖော်ပြရန်(echo) အတွက် `{{ }}` syntax သို့မဟုတ် `@lang` directive ကိုအသုံးပြုရပါမယ်။
 
     {{ __('messages.welcome') }}
 
     @lang('messages.welcome')
 
-If the specified translation string does not exist, the `__` function will return the translation string key. So, using the example above, the `__` function would return `messages.welcome` if the translation string does not exist.
+အကယ်လို့ သတ်မှတ်လိုက်တဲ့ ဘာသာစကားစု မရှိခဲ့လျှင် `__` function က ဘာသာပြန်မည့်စကားစု၏ key ကိုပဲ return ပြန်ပေးပါတယ်။ ထို့ကြောင့် အထက်ကဖော်ပြထားသော ဥပမာတွင် ဘာသာပြန်မည့်စကားစု မရှိခဲ့လျှင် `__` function က `messages.welcome` ကို return ပြန်ပေးပါလိမ့်မယ်။
 
 > {note} The `@lang` directive does not escape any output. You are **fully responsible** for escaping your own output when using this directive.
 
 <a name="replacing-parameters-in-translation-strings"></a>
 ### Replacing Parameters In Translation Strings
 
-If you wish, you may define placeholders in your translation strings. All placeholders are prefixed with a `:`. For example, you may define a welcome message with a placeholder name:
+သင်ဆန္ဒရှိလျှင် သင့်ရဲ့ ဘာသာပြန်မည့်စကားစုတွေအတွင်းမှာ place-holder တွေ သတ်မှတ်နိုင်ပါတယ်။ place-holder အားလုံးက ရှေ့မှာ `:` ခံထားပါတယ်။ ဥပမာအားဖြင့် သင့်ရဲ့ welcome message ကို place-holder name ထည့်သွင်းပြီး သတ်မှတ်မည်ဆိုလျှင် -
+
 
     'welcome' => 'Welcome, :name',
 
-To replace the placeholders when retrieving a translation string, pass an array of replacements as the second argument to the `__` function:
+စကားစုတွေကိုထုတ်ယူသောအခါ place-holder များနေရာတွင်အစားထိုးရန်အတွက် `__` function ၏ ဒုတိယ argument အနေနဲ့ အစားထိုးချင်သည့် array ကိုထည့်ပေးလိုက်ရပါမယ်။
 
     echo __('messages.welcome', ['name' => 'dayle']);
 
-If your placeholder contains all capital letters, or only has its first letter capitalized, the translated value will be capitalized accordingly:
+အစားထိုးဝင်ရောက်လာသောတန်ဖိုးများသည် place-holder ရဲ့ စကားလုံး အကြီးအသေး ထားသိုပုံအလိုက် ပြောင်းလဲသွားမှာဖြစ်ပါတယ်။
 
     'welcome' => 'Welcome, :NAME', // Welcome, DAYLE
     'goodbye' => 'Goodbye, :Name', // Goodbye, Dayle
 
 <a name="pluralization"></a>
-### Pluralization
+### အများကိန်းပြုလုပ်ခြင်း
 
-Pluralization is a complex problem, as different languages have a variety of complex rules for pluralization. By using a "pipe" character, you may distinguish singular and plural forms of a string:
+ဘာသာစကားအမျိုးမျိုးမှာ အများကိန်းပြောင်းရန် ရှုပ်ထွေးသော စည်းမျဉ်းစည်းကမ်းတွေများစွာရှိသည့်အတွက် အများကိန်းပြောင်းခြင်းဟာ ရှုပ်ထွေးတဲ့ပြဿနာ ဖြစ်လာပါတယ်။ "pipe" character ကိုသုံးခြင်းအားဖြင့် စကားစုများတွင် အများကိန်း နှင့် အနဲကိန်းကို ခွဲခြား အသုံးပြုနိုင်ပါတယ်။
 
     'apples' => 'There is one apple|There are many apples',
 
-You may even create more complex pluralization rules which specify translation strings for multiple number ranges:
+များပြားသောကိန်းဂဏန်းအမျိုးမျိုးတို့အတွက် ဘာသာပြန်မှုပြုလုပ်နိုင်ရန် ပိုမိုရှုပ်ထွေးသော အများကိန်းပြောင်းသည့် စည်းမျဉ်းများအားလည်း ဖန်တီးနိုင်ပါသေးတယ်။
 
     'apples' => '{0} There are none|[1,19] There are some|[20,*] There are many',
 
-After defining a translation string that has pluralization options, you may use the `trans_choice` function to retrieve the line for a given "count". In this example, since the count is greater than one, the plural form of the translation string is returned:
+သင့်ရဲ့ စကားစုကို အများကိန်းပြုလုပ်ခြင်းအခြေအနေဖြင့် အသုံးပြုမည်ဟုရွေးခြယ်ထားပြီးနောက် ပေးလိုက်သော "count" ပေါ်မူတည်၍  စကားစုကိုထုတ်ယူသောအခါ `trans_choice` function ကိုအသုံးပြုနိုင်ပါတယ်။ ယခု ဥပမာတွင် count ၏တန်ဖိုး ၁ ထက်ကြီးတာနဲ့ ဘာသာပြန်မည့်စကားစုက အများကိန်းပုံစံဖြင့် return ပြန်တာမှာဖြစ်ပါတယ်။
 
     echo trans_choice('messages.apples', 10);
 
@@ -152,6 +153,6 @@ If you would like to display the integer value that was passed to the `trans_cho
 <a name="overriding-package-language-files"></a>
 ## Overriding Package Language Files
 
-Some packages may ship with their own language files. Instead of changing the package's core files to tweak these lines, you may override them by placing files in the `resources/lang/vendor/{package}/{locale}` directory.
+Laravel နဲ့အတူ တွဲစပ်အသုံးပြုနိုင်တဲ့ packages တွေမှာ သူတို့ရဲ့ ကိုယ်ပိုင် ဘာသာစကားဖိုင်တွေတစ်ပါတည်းပါလာပါတယ်။ အဲ့ဒီဖိုင်တွေကို change ဖို့ packages တွေရဲ့ မူရင်းဖိုင်တွေကို သွားပြင်နေမဲ့အစား `resources/lang/vendor/{package}/{locale}` လမ်းကြောင်းအောက်ကနေတစ်ဆင့် override ပြုလုပ်နိုင်ပါတယ်။
 
-So, for example, if you need to override the English translation strings in `messages.php` for a package named `skyrim/hearthfire`, you should place a language file at: `resources/lang/vendor/hearthfire/en/messages.php`. Within this file, you should only define the translation strings you wish to override. Any translation strings you don't override will still be loaded from the package's original language files.
+ဥပမာ `skyrim/hearthfire` လို့ အမည်တွင်တဲ့ package အတွက် `messages.php` ဖိုင်ထဲမှာရှိတဲ့ English Language ကို override လုပ်ချင်တယ်ဆိုရင် `resources/lang/vendor/hearthfire/en/messages.php` ဖိုင်ကနေတစ်ဆင့် ပြုလုပ်နိုင်ပါတယ်။ Override လုပ်ဖို့လိုအပ်တဲ့ ဘာသာပြန်မည့်စကားစုတွေကိုပဲ အဲ့ဒီဖိုင်ထဲမှာသတ်မှတ်ထားဖို့လိုအပ်ပါတယ်။ ကျန်တဲ့စကားစုအားလုံးကိုတော့ package ရဲ့ language ဖိုင်ထဲက နေပဲ အလုပ်လုပ်သွားမှာဖြစ်ပါတယ်။
